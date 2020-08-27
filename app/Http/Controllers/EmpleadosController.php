@@ -14,8 +14,9 @@ class EmpleadosController extends Controller
      */
     public function index()
     {
-        //
-        return view('empleados.index');
+        //Recuperamos los datos del modelo y lo mandamos paginado en intervalos de 3 registros
+        $datos['empleados']=Empleados::paginate(3);
+        return view('empleados.index', $datos);
     }
 
     /**
