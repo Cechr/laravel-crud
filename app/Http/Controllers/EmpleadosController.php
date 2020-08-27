@@ -93,8 +93,11 @@ class EmpleadosController extends Controller
      * @param  \App\Empleados  $empleados
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Empleados $empleados)
+    public function destroy($id)
     {
-        //
+        //Recibimos el id del empleado y ejecutamos el método que elimina el registro en la BD
+        Empleados::destroy($id);
+
+        return redirect('empleados');
     }
 }

@@ -27,7 +27,19 @@
             <td>{{ $empleado->ApellidoMaterno }}</td>
             <td>{{ $empleado->Correo}}</td>
             
-            <td>Editar | Borrar</td>
+            <td>Editar | 
+
+                <form method="POST" action="{{ url('/empleados/'.$empleado->id) }}">
+                    
+                    @csrf {{-- Mandamos el token para procesar la solicitud --}}
+                    
+                    @method('DELETE') {{-- Mandamos que tipo de solicitud que requerimos, accediendo al metodo destroy() del controller --}}
+                    
+                    <button type="submit" onclick="return confirm('¿Desea borrar el registro?');">Borrar</button>
+
+                </form>
+
+            </td>
         </tr>
     @endforeach
     </tbody>
