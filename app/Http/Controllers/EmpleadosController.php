@@ -113,13 +113,14 @@ class EmpleadosController extends Controller
      */
     public function destroy($id)
     {
-        //Borramos la imagen del empleado
+        //Borramos la imagen del empleado y si es exitoso pasamos a borrar el registro de la base de datos
         $datoEmpleadoActual= Empleados::findOrFail($id);
-        Storage::delete('public/'.$datoEmpleadoActual->Foto);
-
-        //Recibimos el id del empleado y ejecutamos el método que elimina el registro en la BD
-        Empleados::destroy($id);
         
+        if(Storage::delete('public/'.$datoEmpleadoActual->Foto)){
+            //Recibimos el id del empleado y ejecutamos el método que elimina el registro en la BD
+            Empleados::destroy($id);
+        }
+   
         return redirect('empleados');
     }
 }
