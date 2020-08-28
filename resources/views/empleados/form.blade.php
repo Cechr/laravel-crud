@@ -1,7 +1,18 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">    
+    @if ($Modo=='crear')
+        <h1>Hola soy el Create de Empleados</h1>
+    @else
+        <h1>Hola soy el Edit (Update) de Empleados</h1>
+    @endif
+    
+
     <a href="{{ url('empleados') }}">Regresar</a>
     <br>
     <br>
-    
+
     <label for="Nombre">{{'Nombre'}}</label>
     <input type="text" name="Nombre" id="Nombre" value="{{ isset($datosEmpleado->Nombre) ? $datosEmpleado->Nombre : '' }}">
     <br>
@@ -32,3 +43,6 @@
     <br>
     <br>
     <input type="submit" value="{{ $Modo=='crear' ? 'AÑADIR' : 'GUARDAR CAMBIOS' }}">
+
+</div>
+@endsection
