@@ -1,5 +1,14 @@
+@if (Session::has('Mensaje')){{
+    Session::get('Mensaje')
+}}
+@endif
+
+
+<br>
 <h1>Hola soy el INDEX - INICIO (Despliegue de datos)</h1>
+
 <a href="{{ url('empleados/create') }}">Nuevo Empleado</a>
+<br>
 <br>
 <table class="table table-light">
     <thead class="thead-light">
