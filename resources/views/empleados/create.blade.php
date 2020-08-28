@@ -1,3 +1,5 @@
+<a href="{{ url('empleados') }}">Regresar</a>
+<br>
 <h1>Hola soy el Create de Empleados</h1>
 <form action="{{ url('/empleados') }}" method="post" enctype="multipart/form-data">
 

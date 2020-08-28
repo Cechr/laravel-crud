@@ -51,7 +51,7 @@ class EmpleadosController extends Controller
         //Hacemos la insercion de los datos
         Empleados::insert($datosEmpleado);
 
-        return response()->json($datosEmpleado);
+        return redirect('empleados');
     }
 
     /**
