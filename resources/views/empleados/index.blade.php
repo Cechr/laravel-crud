@@ -27,7 +27,10 @@
             <td>{{ $empleado->ApellidoMaterno }}</td>
             <td>{{ $empleado->Correo}}</td>
             
-            <td>Editar | 
+            <td>
+                <a href="{{ url('/empleados/'.$empleado->id.'/edit') }}">Editar</a>
+                
+                 | 
 
                 <form method="POST" action="{{ url('/empleados/'.$empleado->id) }}">
                     

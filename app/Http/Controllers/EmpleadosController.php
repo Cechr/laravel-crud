@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Empleados;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EmpleadosController extends Controller
 {
@@ -15,8 +16,8 @@ class EmpleadosController extends Controller
     public function index()
     {
         //Recuperamos los datos del modelo y lo mandamos paginado en intervalos de 3 registros
-        $datos['empleados']=Empleados::paginate(3);
-        return view('empleados.index', $datos);
+        $datosEmpleados['empleados']=Empleados::paginate(3);
+        return view('empleados.index', $datosEmpleados);
     }
 
     /**
@@ -70,9 +71,11 @@ class EmpleadosController extends Controller
      * @param  \App\Empleados  $empleados
      * @return \Illuminate\Http\Response
      */
-    public function edit(Empleados $empleados)
+    public function edit($id)
     {
-        //
+        //Buscamos y obtenemos los datos del empleado de la BD y la mandamos a la vista correspondiente
+        $datosEmpleado= Empleados::findOrFail($id);
+        return view('empleados.edit', compact('datosEmpleado'));
     }
 
     /**
@@ -82,9 +85,24 @@ class EmpleadosController extends Controller
      * @param  \App\Empleados  $empleados
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empleados $empleados)
+    public function update(Request $request, $id)
     {
-        //
+        //Recibimos la información del Request por el método POST y excluimos el token
+        $datosEmpleadoModificado = $request->except(['_token', '_method']);
+
+        //Tratamos la imagen
+        if($request->hasFile('Foto')){
+            //Borramos la imagen actual
+            $datoEmpleadoActual= Empleados::findOrFail($id);
+            Storage::delete('public/'.$datoEmpleadoActual->Foto);
+
+            //Modificamos el valor de 'Foto' en el array por el path donde movemos con el metodo store() el nuevo archivo
+            $datosEmpleadoModificado['Foto']=$request->file('Foto')->store('uploads', 'public');
+        }
+
+        Empleados::where('id', '=', $id)->update($datosEmpleadoModificado);
+
+        return redirect('empleados');
     }
 
     /**
@@ -95,9 +113,13 @@ class EmpleadosController extends Controller
      */
     public function destroy($id)
     {
+        //Borramos la imagen del empleado
+        $datoEmpleadoActual= Empleados::findOrFail($id);
+        Storage::delete('public/'.$datoEmpleadoActual->Foto);
+
         //Recibimos el id del empleado y ejecutamos el método que elimina el registro en la BD
         Empleados::destroy($id);
-
+        
         return redirect('empleados');
     }
 }
