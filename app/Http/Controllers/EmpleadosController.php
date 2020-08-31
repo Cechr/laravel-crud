@@ -39,6 +39,20 @@ class EmpleadosController extends Controller
      */
     public function store(Request $request)
     {
+        $attributes=[
+            'Nombre' => 'required|string|max:100',
+            'ApellidoPaterno' => 'required|string|max:100',
+            'ApellidoMaterno' => 'required|string|max:100',
+            'Correo' => 'required|email',
+            'Foto' => 'required|max:10000|mimes:jpeg,png,jpg',
+        ];
+
+        $mesagge=[
+            'required'=> 'El campo :attribute es requerido para registrar el nuevo empleado.'
+        ];
+
+        $request->validate($attributes,$mesagge);
+
         //Recibimos la información del Request por el método POST y excluimos el token
         $datosEmpleado = $request->except('_token');
 
