@@ -38,7 +38,8 @@ class EmpleadosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        //Indicamos en el array los atributos que queremos validar
         $attributes=[
             'Nombre' => 'required|string|max:100',
             'ApellidoPaterno' => 'required|string|max:100',
@@ -47,10 +48,12 @@ class EmpleadosController extends Controller
             'Foto' => 'required|max:10000|mimes:jpeg,png,jpg',
         ];
 
+        //Indicamos en el array el mensaje que vamos a mostrar cuando el campo esta vacío
         $mesagge=[
             'required'=> 'El campo :attribute es requerido para registrar el nuevo empleado.'
         ];
 
+        //Validamos los datos con la función validate()
         $request->validate($attributes,$mesagge);
 
         //Recibimos la información del Request por el método POST y excluimos el token
@@ -101,6 +104,27 @@ class EmpleadosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Indicamos en el array los atributos que queremos validar
+        $attributes=[
+            'Nombre' => 'required|string|max:100',
+            'ApellidoPaterno' => 'required|string|max:100',
+            'ApellidoMaterno' => 'required|string|max:100',
+            'Correo' => 'required|email',
+        ];
+
+        //Si hay foto significa que se quiere actualizar, por se valida
+        if($request->hasFile('Foto')){
+            $attributes+=['Foto' => 'required|max:10000|mimes:jpeg,png,jpg',];
+        }
+
+        //Indicamos en el array el mensaje que vamos a mostrar cuando el campo esta vacío
+        $mesagge=[
+            'required'=> 'El campo :attribute es requerido para registrar el nuevo empleado.'
+        ];
+
+        //Validamos los datos con la función validate()
+        $request->validate($attributes,$mesagge);
+        
         //Recibimos la información del Request por el método POST y excluimos el token
         $datosEmpleadoModificado = $request->except(['_token', '_method']);
 
