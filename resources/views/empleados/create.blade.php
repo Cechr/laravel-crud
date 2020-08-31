@@ -1,4 +1,4 @@
-<form action="{{ url('/empleados') }}" method="post" enctype="multipart/form-data">
+<form action="{{ url('/empleados') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
 
     {{ csrf_field() }}
     
