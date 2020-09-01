@@ -50,6 +50,8 @@
         </tbody>
     </table>
 
+    {{ $empleados->links() }}
+
 </div>
 @endsection
 
