@@ -2,12 +2,6 @@
 
 @section('content')
 <div class="container">
-
-@if (Session::has('Mensaje')){{
-    Session::get('Mensaje')
-}}
-@endif
-
     <br>
     <h1>Hola soy el INDEX - INICIO (Despliegue de datos)</h1>
 
@@ -40,13 +34,13 @@
                 <td>
                     <a href="{{ url('/empleados/'.$empleado->id.'/edit') }}" class="btn btn-warning">Editar</a>
 
-                    <form method="POST" action="{{ url('/empleados/'.$empleado->id) }}" style="display: inline">
+                    <form method="POST" action="{{ url('/empleados/'.$empleado->id) }}" class="d-inline formulario-eliminar">
                         
                         @csrf {{-- Mandamos el token para procesar la solicitud --}}
                         
                         @method('DELETE') {{-- Mandamos que tipo de solicitud que requerimos, accediendo al metodo destroy() del controller --}}
                         
-                        <button type="submit" onclick="return confirm('¿Desea borrar el registro?');" class="btn btn-danger display inline">Borrar</button>
+                        <button type="submit" class="btn btn-danger display inline">Borrar</button>
 
                     </form>
 
@@ -57,4 +51,48 @@
     </table>
 
 </div>
+@endsection
+
+@section('js')
+
+    @if (Session('Mensaje')=='Eliminado')
+        <script>
+            Swal.fire('¡Eliminado!','El registro ha sido eliminado con éxito.','success');
+        </script>
+    @endif
+    @if (Session('Mensaje')=='Actualizado')
+        <script>
+            Swal.fire('¡Actualizado!','El registro ha sido actualizado con éxito.','success');
+        </script>
+    @endif
+    @if (Session('Mensaje')=='Agregado')
+        <script>
+            Swal.fire('¡Agregado!','El registro ha sido agregado con éxito.','success');
+        </script>
+
+    @endif
+
+    <script>
+        
+        $('.formulario-eliminar').submit(function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡El registro de eliminará de manera permanente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, !Estoy seguro!'
+            }).then((result) => {
+                if (result.value) {
+                    this.submit();
+                }
+            });
+
+        });
+        
+    </script>
+
 @endsection

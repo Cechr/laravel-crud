@@ -78,7 +78,7 @@ class EmpleadosController extends Controller
         //Hacemos la insercion de los datos
         Empleados::insert($datosEmpleado);
 
-        return redirect('empleados')->with('Mensaje','¡Empleado AGREGADO con ÉXITO!');
+        return redirect('empleados')->with('Mensaje','Agregado');
     }
 
     /**
@@ -150,7 +150,7 @@ class EmpleadosController extends Controller
 
         Empleados::where('id', '=', $id)->update($datosEmpleadoModificado);
 
-        return redirect('empleados')->with('Mensaje','¡Empleado ACTUALIZADO con ÉXITO!');;
+        return redirect('empleados')->with('Mensaje','Actualizado');;
     }
 
     /**
@@ -169,6 +169,6 @@ class EmpleadosController extends Controller
             Empleados::destroy($id);
         }
    
-        return redirect('empleados')->with('Mensaje','¡Empleado BORRADO con ÉXITO!');;
+        return redirect('empleados')->with('Mensaje','Eliminado');;
     }
 }
